@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Abrir orden de trabajo')}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: navbar('ordenes')}"></nav>
+
+<main class="container py-4" style="max-width: 640px;">
+    <div th:replace="~{fragments/layout :: mensajes}"></div>
+
+    <h1 class="h3 mb-3">Abrir orden de trabajo</h1>
+
+    <form th:action="@{/ordenes}" th:object="${form}" method="post" class="card card-body">
+        <div class="mb-3">
+            <label for="vehiculoId" class="form-label">Vehículo</label>
+            <select th:field="*{vehiculoId}" class="form-select" required>
+                <option value="">Seleccione un vehículo</option>
+                <option th:each="v : ${vehiculos}" th:value="${v.id}"
+                        th:text="${v.patente + ' - ' + v.marca + ' ' + v.modelo + ' (' + v.cliente.apellido + ', ' + v.cliente.nombre + ')'}">
+                    AB123CD - Ford Fiesta
+                </option>
+            </select>
+        </div>
+        <div class="mb-3">
+            <label for="descripcion" class="form-label">Descripción del trabajo</label>
+            <textarea th:field="*{descripcion}" class="form-control" rows="3"
+                      minlength="5" maxlength="255" required></textarea>
+        </div>
+        <div class="d-flex gap-2">
+            <button type="submit" class="btn btn-success">Abrir orden</button>
+            <a class="btn btn-outline-secondary" th:href="@{/ordenes}">Cancelar</a>
+        </div>
+    </form>
+</main>
+
+<script th:replace="~{fragments/layout :: scripts}"></script>
+</body>
+</html>

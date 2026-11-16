@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Detalle de orden')}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: navbar('ordenes')}"></nav>
+
+<main class="container py-4" style="max-width: 760px;">
+    <div th:replace="~{fragments/layout :: mensajes}"></div>
+
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h1 class="h3 mb-0">
+            Orden de trabajo
+            <span class="badge fs-6" th:classappend="${orden.estado.claseCss}" th:text="${orden.estado.etiqueta}">Abierta</span>
+        </h1>
+        <a class="btn btn-outline-dark" th:href="@{/ordenes}">Volver</a>
+    </div>
+
+    <div class="card card-body mb-4">
+        <div><strong>Fecha de ingreso:</strong> <span th:text="${#temporals.format(orden.fechaIngreso, 'dd/MM/yyyy')}">-</span></div>
+        <div>
+            <strong>Vehículo:</strong>
+            <a th:href="@{/vehiculos/{id}(id=${orden.vehiculo.id})}"
+               th:text="${orden.vehiculo.patente + ' - ' + orden.vehiculo.marca + ' ' + orden.vehiculo.modelo}">AB123CD</a>
+        </div>
+        <div>
+            <strong>Cliente:</strong>
+            <a th:href="@{/clientes/{id}(id=${orden.vehiculo.cliente.id})}"
+               th:text="${orden.vehiculo.cliente.apellido + ', ' + orden.vehiculo.cliente.nombre}">Pérez, Juan</a>
+        </div>
+        <div><strong>Descripción:</strong> <span th:text="${orden.descripcion}">-</span></div>
+        <div>
+            <strong>Costo final:</strong>
+            <span th:text="${orden.costo > 0} ? ${'$ ' + #numbers.formatDecimal(orden.costo, 1, 'POINT', 2, 'COMMA')} : 'Pendiente'">-</span>
+        </div>
+    </div>
+
+    <!-- Operaciones de negocio segun el estado actual -->
+    <form th:if="${orden.estado.name() == 'ABIERTA'}" method="post"
+          th:action="@{/ordenes/{id}/iniciar(id=${orden.id})}">
+        <button type="submit" class="btn btn-primary">Iniciar reparación</button>
+    </form>
+
+    <form th:if="${orden.estado.name() == 'EN_REPARACION'}" method="post"
+          th:action="@{/ordenes/{id}/finalizar(id=${orden.id})}" class="card card-body">
+        <h2 class="h5">Finalizar orden</h2>
+        <div class="mb-3">
+            <label for="costo" class="form-label">Costo final ($)</label>
+            <input type="number" id="costo" name="costo" class="form-control"
+                   step="0.01" min="0.01" required>
+        </div>
+        <div>
+            <button type="submit" class="btn btn-success">Finalizar orden</button>
+        </div>
+    </form>
+</main>
+
+<script th:replace="~{fragments/layout :: scripts}"></script>
+</body>
+</html>

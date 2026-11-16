@@ -1,0 +1,41 @@
+<!-- Enhancement de las clases persistentes -->
+<plugin>
+    <groupId>org.datanucleus</groupId>
+    <artifactId>datanucleus-maven-plugin</artifactId>
+    <version>6.0.1</version>
+
+    <configuration>
+        <api>JDO</api>
+        <persistenceUnitName>Programacion2</persistenceUnitName>
+        <verbose>true</verbose>
+    </configuration>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.datanucleus</groupId>
+            <artifactId>datanucleus-core</artifactId>
+            <version>6.0.11</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.datanucleus</groupId>
+            <artifactId>datanucleus-api-jdo</artifactId>
+            <version>6.0.5</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.datanucleus</groupId>
+            <artifactId>javax.jdo</artifactId>
+            <version>3.2.1</version>
+        </dependency>
+    </dependencies>
+
+    <executions>
+        <execution>
+            <phase>process-classes</phase>
+            <goals>
+                <goal>enhance</goal>
+            </goals>
+        </execution>
+    </executions>
+</plugin>

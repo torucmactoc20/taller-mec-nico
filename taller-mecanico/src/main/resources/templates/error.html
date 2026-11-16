@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Error')}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: navbar('')}"></nav>
+
+<main class="container py-4">
+    <div class="alert alert-danger">
+        <h1 class="h4">No se pudo completar la solicitud</h1>
+        <p class="mb-0" th:text="${mensaje} ?: 'Ocurrió un error inesperado.'">Ocurrió un error inesperado.</p>
+    </div>
+    <a class="btn btn-primary" th:href="@{/}">Volver al inicio</a>
+</main>
+
+<script th:replace="~{fragments/layout :: scripts}"></script>
+</body>
+</html>

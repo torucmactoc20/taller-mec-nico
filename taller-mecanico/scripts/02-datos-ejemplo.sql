@@ -1,0 +1,36 @@
+-- OPCIONAL. Ejecutar en SSMS DESPUES de haber iniciado la aplicacion una vez
+-- (para que ya existan las tablas). Carga clientes, vehiculos y ordenes de ejemplo.
+-- Si ya hay clientes cargados, no hace nada.
+
+USE TallerMecanico;
+GO
+
+IF EXISTS (SELECT 1 FROM CLIENTE)
+BEGIN
+    PRINT 'Ya hay datos cargados. No se inserta nada.';
+    RETURN;
+END
+
+DECLARE @juan INT, @maria INT, @v1 INT, @v2 INT, @v3 INT;
+
+INSERT INTO CLIENTE (NOMBRE, APELLIDO, TELEFONO) VALUES ('Juan', 'Perez', '2994001122');
+SET @juan = SCOPE_IDENTITY();
+INSERT INTO CLIENTE (NOMBRE, APELLIDO, TELEFONO) VALUES ('Maria', 'Gomez', '2994003344');
+SET @maria = SCOPE_IDENTITY();
+
+INSERT INTO VEHICULO (PATENTE, MARCA, MODELO, ANIO, CLIENTE_ID) VALUES ('AB123CD', 'Ford', 'Fiesta', 2018, @juan);
+SET @v1 = SCOPE_IDENTITY();
+INSERT INTO VEHICULO (PATENTE, MARCA, MODELO, ANIO, CLIENTE_ID) VALUES ('AC456EF', 'Fiat', 'Cronos', 2021, @juan);
+SET @v2 = SCOPE_IDENTITY();
+INSERT INTO VEHICULO (PATENTE, MARCA, MODELO, ANIO, CLIENTE_ID) VALUES ('AA789GH', 'Renault', 'Kangoo', 2015, @maria);
+SET @v3 = SCOPE_IDENTITY();
+
+INSERT INTO ORDENDETRABAJO (DESCRIPCION, FECHAINGRESO, ESTADO, COSTO, VEHICULO_ID)
+VALUES ('Cambio de aceite y filtros', CAST(GETDATE() AS DATE), 'ABIERTA', 0, @v1);
+INSERT INTO ORDENDETRABAJO (DESCRIPCION, FECHAINGRESO, ESTADO, COSTO, VEHICULO_ID)
+VALUES ('Revision de frenos', CAST(GETDATE() AS DATE), 'FINALIZADA', 60000, @v2);
+INSERT INTO ORDENDETRABAJO (DESCRIPCION, FECHAINGRESO, ESTADO, COSTO, VEHICULO_ID)
+VALUES ('Cambio de correa de distribucion', CAST(GETDATE() AS DATE), 'EN_REPARACION', 0, @v3);
+
+PRINT 'Datos de ejemplo cargados.';
+GO
