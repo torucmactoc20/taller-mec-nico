@@ -80,11 +80,9 @@ public class Cliente {
 
     @Override
     public String toString() {
-        return "Cliente{" +
-                "id=" + id +
-                ", nombre='" + nombre + '\'' +
-                ", apellido='" + apellido + '\'' +
-                ", telefono='" + telefono + '\'' +
-                '}';
+        return "Cliente{id=" + id
+                + ", nombre=" + nombre
+                + ", apellido=" + apellido
+                + ", telefono=" + telefono + "}";
     }
 }

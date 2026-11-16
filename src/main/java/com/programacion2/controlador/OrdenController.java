@@ -30,7 +30,7 @@ public class OrdenController {
     }
 
     @GetMapping
-    public String listar(@RequestParam(required = false) EstadoOrden estado, Model model) {
+    public String listar(@RequestParam(name = "estado", required = false) EstadoOrden estado, Model model) {
         model.addAttribute("ordenes", servicio.listar(estado));
         model.addAttribute("estados", EstadoOrden.values());
         model.addAttribute("estadoSeleccionado", estado);
@@ -38,7 +38,7 @@ public class OrdenController {
     }
 
     @GetMapping("/nueva")
-    public String nueva(@RequestParam(required = false) Integer vehiculoId, Model model) {
+    public String nueva(@RequestParam(name = "vehiculoId", required = false) Integer vehiculoId, Model model) {
         OrdenForm form = new OrdenForm();
         form.setVehiculoId(vehiculoId);
         prepararFormulario(model, form);
@@ -65,13 +65,13 @@ public class OrdenController {
     }
 
     @GetMapping("/{id}")
-    public String detalle(@PathVariable int id, Model model) {
+    public String detalle(@PathVariable("id") int id, Model model) {
         model.addAttribute("orden", servicio.obtener(id));
         return "ordenes/detalle";
     }
 
     @PostMapping("/{id}/iniciar")
-    public String iniciar(@PathVariable int id, RedirectAttributes redirect) {
+    public String iniciar(@PathVariable("id") int id, RedirectAttributes redirect) {
         try {
             servicio.iniciarReparacion(id);
             redirect.addFlashAttribute("mensaje", "La orden pasó a estado En reparación.");
@@ -82,8 +82,8 @@ public class OrdenController {
     }
 
     @PostMapping("/{id}/finalizar")
-    public String finalizar(@PathVariable int id,
-                            @RequestParam(required = false) Double costo,
+    public String finalizar(@PathVariable("id") int id,
+                            @RequestParam(name = "costo", required = false) Double costo,
                             RedirectAttributes redirect) {
         try {
             servicio.finalizar(id, costo);

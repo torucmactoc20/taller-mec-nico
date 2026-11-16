@@ -80,7 +80,7 @@ Las vistas nunca acceden a los repositorios: solo reciben datos del controlador.
 ## Requisitos
 
 - JDK 17 o superior
-- Maven 3.9 o superior
+- Maven 3.9 o superior (opcional: el proyecto incluye el wrapper `mvnw`, que lo descarga solo)
 - SQL Server (2019 o superior, o Express) y SQL Server Management Studio (SSMS), con acceso en `localhost:1433`
 - Conexión a internet (para descargar dependencias y cargar Bootstrap desde CDN)
 
@@ -104,20 +104,26 @@ Las vistas nunca acceden a los repositorios: solo reciben datos del controlador.
    Si usan SQL Server Express con instancia con nombre, la URL es `jdbc:sqlserver://localhost\\SQLEXPRESS;databaseName=TallerMecanico;encrypt=true;trustServerCertificate=true`.
    Si cambian usuario o contraseña, definan las variables de entorno en lugar de modificar y subir el archivo.
 
-4. (Opcional) Una vez iniciada la aplicación por primera vez, se puede ejecutar `scripts/02-datos-ejemplo.sql` en SSMS para cargar datos de ejemplo.
+4. Para cargar datos de ejemplo, usar la opción **Datos de ejemplo** (más abajo): se cargan desde la propia aplicación.
 
 ## Ejecutar la aplicación
 
 ```bash
-mvn spring-boot:run
+# Linux / macOS
+./mvnw spring-boot:run
+
+# Windows
+mvnw.cmd spring-boot:run
 ```
+
+(También funciona con `mvn spring-boot:run` si tienen Maven instalado.)
 
 Luego abrir <http://localhost:8080>.
 
 Para generar el jar y ejecutarlo:
 
 ```bash
-mvn clean package
+./mvnw clean package -DskipTests
 java -jar target/taller-mecanico-1.0-SNAPSHOT.jar
 ```
 
@@ -127,10 +133,10 @@ Para cargar algunos clientes, vehículos y órdenes la primera vez (solo si la b
 
 ```bash
 # Linux / macOS
-CARGAR_DATOS_EJEMPLO=true mvn spring-boot:run
+CARGAR_DATOS_EJEMPLO=true ./mvnw spring-boot:run
 
 # Windows (PowerShell)
-$env:CARGAR_DATOS_EJEMPLO="true"; mvn spring-boot:run
+$env:CARGAR_DATOS_EJEMPLO="true"; .\mvnw.cmd spring-boot:run
 ```
 
 Los datos se mantienen en la base al cerrar y volver a ejecutar la aplicación.

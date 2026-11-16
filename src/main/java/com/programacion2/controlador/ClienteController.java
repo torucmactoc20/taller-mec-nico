@@ -26,7 +26,7 @@ public class ClienteController {
     }
 
     @GetMapping
-    public String listar(@RequestParam(required = false) String buscar, Model model) {
+    public String listar(@RequestParam(name = "buscar", required = false) String buscar, Model model) {
         model.addAttribute("clientes", servicio.buscar(buscar));
         model.addAttribute("buscar", buscar);
         return "clientes/lista";
@@ -54,13 +54,13 @@ public class ClienteController {
     }
 
     @GetMapping("/{id}")
-    public String detalle(@PathVariable int id, Model model) {
+    public String detalle(@PathVariable("id") int id, Model model) {
         model.addAttribute("cliente", servicio.obtener(id));
         return "clientes/detalle";
     }
 
     @GetMapping("/{id}/editar")
-    public String editar(@PathVariable int id, Model model) {
+    public String editar(@PathVariable("id") int id, Model model) {
         Cliente cliente = servicio.obtener(id);
 
         ClienteForm form = new ClienteForm();
@@ -73,7 +73,7 @@ public class ClienteController {
     }
 
     @PostMapping("/{id}")
-    public String modificar(@PathVariable int id,
+    public String modificar(@PathVariable("id") int id,
                             @ModelAttribute("form") ClienteForm form,
                             Model model,
                             RedirectAttributes redirect) {
@@ -89,7 +89,7 @@ public class ClienteController {
     }
 
     @PostMapping("/{id}/eliminar")
-    public String eliminar(@PathVariable int id, RedirectAttributes redirect) {
+    public String eliminar(@PathVariable("id") int id, RedirectAttributes redirect) {
         try {
             servicio.eliminar(id);
             redirect.addFlashAttribute("mensaje", "Cliente eliminado correctamente.");

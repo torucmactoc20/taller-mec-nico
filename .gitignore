@@ -6,3 +6,6 @@ target/
 *.iml
 .vscode/
 *.log
+HELP.md
+.factorypath
+.DS_Store

@@ -31,14 +31,14 @@ public class VehiculoController {
     }
 
     @GetMapping
-    public String listar(@RequestParam(required = false) String patente, Model model) {
+    public String listar(@RequestParam(name = "patente", required = false) String patente, Model model) {
         model.addAttribute("vehiculos", servicio.buscar(patente));
         model.addAttribute("patente", patente);
         return "vehiculos/lista";
     }
 
     @GetMapping("/nuevo")
-    public String nuevo(@RequestParam(required = false) Integer clienteId, Model model) {
+    public String nuevo(@RequestParam(name = "clienteId", required = false) Integer clienteId, Model model) {
         VehiculoForm form = new VehiculoForm();
         form.setClienteId(clienteId);
         prepararFormulario(model, form, "Nuevo vehículo", "/vehiculos", null);
@@ -66,13 +66,13 @@ public class VehiculoController {
     }
 
     @GetMapping("/{id}")
-    public String detalle(@PathVariable int id, Model model) {
+    public String detalle(@PathVariable("id") int id, Model model) {
         model.addAttribute("vehiculo", servicio.obtener(id));
         return "vehiculos/detalle";
     }
 
     @GetMapping("/{id}/editar")
-    public String editar(@PathVariable int id, Model model) {
+    public String editar(@PathVariable("id") int id, Model model) {
         Vehiculo vehiculo = servicio.obtener(id);
 
         VehiculoForm form = new VehiculoForm();
@@ -86,7 +86,7 @@ public class VehiculoController {
     }
 
     @PostMapping("/{id}")
-    public String modificar(@PathVariable int id,
+    public String modificar(@PathVariable("id") int id,
                             @ModelAttribute("form") VehiculoForm form,
                             BindingResult resultado,
                             Model model,
@@ -107,7 +107,7 @@ public class VehiculoController {
     }
 
     @PostMapping("/{id}/eliminar")
-    public String eliminar(@PathVariable int id, RedirectAttributes redirect) {
+    public String eliminar(@PathVariable("id") int id, RedirectAttributes redirect) {
         try {
             servicio.eliminar(id);
             redirect.addFlashAttribute("mensaje", "Vehículo eliminado correctamente.");
