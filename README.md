@@ -4,7 +4,8 @@ Aplicación web de gestión para un taller mecánico: permite administrar client
 
 ## Integrantes
 
-- _Completar: nombre y apellido de cada integrante_
+- _participante 1: Agustin Heredia
+- _participante 2: Tomas Barraza
 
 ## Descripción del problema
 
