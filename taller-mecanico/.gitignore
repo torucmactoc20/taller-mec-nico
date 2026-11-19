@@ -9,3 +9,5 @@ target/
 HELP.md
 .factorypath
 .DS_Store
+log.txt
+*.log
